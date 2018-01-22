@@ -1,5 +1,9 @@
 #!/usr/bin/perl
 
+# To install dependencies:
+# cpan Getopt::Long
+# cpan Git::Repository
+
 use strict;
 use warnings;
 use Getopt::Long;
