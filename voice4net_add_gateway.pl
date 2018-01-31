@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+# To install dependencies:
+# cpan Getopt::Long
+
 #script invocation
 #perl /usr/share/freeswitch/scripts/voice4net_add_gateway.pl --gateway-name='sip0000003_vnetdemo' --proxy='fe-3b2b-2g.coredial.com' --username='sip0000003_vnetdemo' --password='5a6f8c82a1352' --confpath='/tmp/'
 
