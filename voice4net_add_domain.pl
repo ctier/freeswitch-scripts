@@ -5,7 +5,7 @@
 # cpan Git::Repository
 
 #script usage
-#perl /usr/share/freeswitch/scripts/voice4net_add_domain.pl --domain='customer1.epbx.com' --confpath='/etc/freeswitch/' --park-reason='new_call' --recordings-path='/var/lib/freeswitch/recordings/customer1'
+#perl /usr/share/freeswitch/scripts/voice4net_add_domain.pl --domain='abc.example.com' --confpath='/etc/freeswitch/' --park-reason='new_call' --recordings-path='/var/lib/freeswitch/recordings/customer1'
 
 use strict;
 use warnings;
