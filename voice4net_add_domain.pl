@@ -46,17 +46,28 @@ unless ( -d $config_path ) {
 	die "Configuration path '$config_path' does not exist.\n";
 }
 
-my $dialplan_path = $config_path . '/dialplan/' . $domain;
-unless ( -d $dialplan_path ) {
-	unless(mkdir $dialplan_path) {
-        die "\nUnable to create $dialplan_path\n";
+my $dialplan_path = $config_path . '/dialplan/';
+
+my $dialplan_domain_path = $dialplan_path . $domain;
+unless ( -d $dialplan_domain_path ) {
+	unless(mkdir $dialplan_domain_path) {
+        die "\nUnable to create $dialplan_domain_path\n";
     }
 }
 
-my $directory_path = $config_path . '/directory/' . $domain;
-unless ( -d $directory_path ) {
-	unless(mkdir $directory_path) {
-        die "\nUnable to create $directory_path\n";
+my $dialplan_public_path = $dialplan_path . '/public/';
+unless ( -d $dialplan_public_path ) {
+	unless(mkdir $dialplan_public_path) {
+        die "\nUnable to create $dialplan_public_path\n";
+    }
+}
+
+my $directory_path = $config_path . '/directory/';
+
+my $directory_domain_path = $directory_path . $domain;
+unless ( -d $directory_domain_path ) {
+	unless(mkdir $directory_domain_path) {
+        die "\nUnable to create $directory_domain_path\n";
     }
 }
 
@@ -78,14 +89,14 @@ else{
 	Git::Repository->run( clone => $url ,$dir );
 }
 
-my $dialplan_file = $config_path . '/dialplan/' . $domain . '.xml';
-my $directory_file = $config_path . '/directory/' . $domain . '.xml';
-my $dialplan_files = $config_path . '/dialplan/' . $domain;
-my $registered_users_file = $dialplan_files . '/00_accept_registered_users.xml';
+my $dialplan_file = $dialplan_path . $domain . '.xml';
+my $directory_file = $directory_path . $domain . '.xml';
+my $registered_users_file = $dialplan_domain_path . '/00_accept_registered_users.xml';
 
 copy($dir . '/dialplan/default.xml', $dialplan_file);
 copy($dir . '/directory/default.xml', $directory_file);
-system("cp " . $dir . '/dialplan/default/*.xml'. ' '. $dialplan_files);
+system("cp " . $dir . '/dialplan/default/*.xml '. $dialplan_domain_path);
+system("cp -n " . $dir . '/dialplan/public/*.xml '. $dialplan_public_path);
 
 system("sed -i -e 's/default/" . $domain . "/g' " . $dialplan_file);
 system("sed -i -e 's/\"default\"/\"" . $domain . "\"/g' -e 's/\"default\\//\"" . $domain . "\\//g' -e 's/\$\${domain}/" . $domain . "/g' " . $directory_file);
