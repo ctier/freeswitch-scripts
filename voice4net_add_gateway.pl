@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #script invocation
-#perl /usr/share/freeswitch/scripts/voice4net_add_gateway.pl --gateway-name='testdemo' --proxy='abc.example.com' --register='true' --caller-id-in-from='true' --from-user='fromuser' --from-domain='abc.example.com' --extension='testdemo' --extension-in-contact='true' --sip-contact-user="testdemo" --username='username' --password='password' --confpath='/tmp/'
+#perl /usr/share/freeswitch/scripts/voice4net_add_gateway.pl --gateway-name='testdemo' --proxy='abc.example.com' --register='true' --caller-id-in-from='true' --from-user='fromuser' --from-domain='abc.example.com' --extension='testdemo' --extension-in-contact='true' --sip-contact-user="testdemo" --username='username' --password='password' --confpath='/tmp/' [--park_reason='tier1fitz_new_call']
 
 use strict;
 use warnings;
@@ -18,6 +18,7 @@ my $extension_in_contact;
 my $sip_contact_user;
 my $username;
 my $password;
+my $park_reason;
 my $config_path;
 
 GetOptions(
@@ -32,6 +33,7 @@ GetOptions(
    'sip-contact-user=s'		    => \$sip_contact_user,
    'username=s'          		=> \$username,
    'password=s'      	 		=> \$password,
+   'park_reason=s'      	 	=> \$park_reason,
    'confpath=s'          		=> \$config_path
 );
 
@@ -83,6 +85,11 @@ if ($sip_contact_user)
 
 $gateway_config .= "\t\t<param name=\"username\" value=\"" . $username . "\"/>\n";
 $gateway_config .= "\t\t<param name=\"password\" value=\"" . $password . "\"/>\n";
+
+if ($park_reason)
+{
+	$gateway_config .= "\t\t<variables>\n\t\t\t<variable name=\"park_reason\" value=\"" . $park_reason . "\"/>\n\t\t</variables>\n";
+}
 
 $gateway_config .= "\t</gateway>\n</include>";
 
