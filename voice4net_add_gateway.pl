@@ -33,12 +33,12 @@ GetOptions(
    'sip-contact-user=s'			=> \$sip_contact_user,
    'username=s'          		=> \$username,
    'password=s'      	 		=> \$password,
-   'park_reason=s'      	 	=> \$park_reason,
+   'park-reason=s'      	 	=> \$park_reason,
    'confpath=s'          		=> \$config_path
 );
 
-if ( ! $gateway_name || ! $proxy || ! $from_user || ! $username || ! $password) {
-  return -1;
+if ( ! $gateway_name || ! $proxy || ! $username || ! $password) {
+	die "the following arguments are required: gateway-name, proxy, username, password";
 }
 
 if (! $config_path)
@@ -61,7 +61,10 @@ if ($caller_id_in_from)
 	$gateway_config .= "\t\t<param name=\"caller-id-in-from\" value=\"" . $caller_id_in_from . "\"/>\n";
 }
 
-$gateway_config .= "\t\t<param name=\"from-user\" value=\"" . $from_user . "\"/>\n";
+if ($from_user)
+{
+	$gateway_config .= "\t\t<param name=\"from-user\" value=\"" . $from_user . "\"/>\n";
+}
 
 if ($from_domain)
 {
