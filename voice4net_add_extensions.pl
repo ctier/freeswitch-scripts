@@ -78,10 +78,15 @@ unless ( -w $full_dir_path ) {
 
 my $extensions_file_name = $full_dir_path . $path_sep . $output_filename;
 
-my @extensions=split(/,/,$input);
+if (index($input,",") != -1) {
+	my @extensions=split(/,/,$input);
+	if (scalar(@extensions) > 1) {
+		$regex='^(' . join("|",@extensions) . ')$';
+	}
+}
 
-if (scalar(@extensions) > 0) {
-	$regex='^' . join("|",@extensions) . '$';
+if (!$regex) {
+	$regex='^' . $input . '$';
 }
 
 if ( -f $extensions_file_name ) {
