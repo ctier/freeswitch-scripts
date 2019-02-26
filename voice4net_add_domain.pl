@@ -82,7 +82,7 @@ my $dir = '/usr/src/freeswitch-config/';
 
 if ((-d $dir) && (-d $dir . '.git')) {
 	my $r = Git::Repository->new( git_dir => $dir . '.git');
-	$r->run( pull => $url);
+	$r->run( pull => $url, { quiet => 1 });
 }
 else{
 	rmtree $dir;
